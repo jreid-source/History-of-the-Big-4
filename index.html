@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A four-branch visual history of Friday the 13th, A Nightmare on Elm Street, Halloween, and The Texas Chain Saw Massacre.">
+  <title>Four Branches of Modern Slasher History</title>
+  <style>
+    :root {
+      --paper: #f3f0e7;
+      --paper-deep: #e2ddd1;
+      --ink: #171816;
+      --muted: #5b5a54;
+      --line: #b8b2a6;
+      --f13: #a52420;
+      --f13-soft: #f3e4e1;
+      --elm-red: #9f261f;
+      --elm-green: #315f3c;
+      --elm-soft: #ece9e2;
+      --halloween: #d86b12;
+      --halloween-soft: #f6eadf;
+      --tcm: #a77820;
+      --tcm-accent: #d2ad52;
+      --tcm-soft: #f2ead3;
+      --radius: 11px;
+      --shadow: 0 12px 30px rgb(25 23 18 / 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #c9c3b5;
+      font-family: "Arial Narrow", "Roboto Condensed", "Franklin Gothic Medium", Arial, sans-serif;
+      line-height: 1.38;
+    }
+    a { color: inherit; }
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      padding: .75rem 1rem;
+      background: var(--ink);
+      color: white;
+      z-index: 20;
+    }
+    .skip-link:focus { left: 1rem; top: 1rem; }
+
+    .page-shell {
+      width: min(1780px, calc(100% - 24px));
+      margin: 12px auto;
+      padding: clamp(14px, 2vw, 28px);
+      background: var(--paper);
+      border: 6px double var(--ink);
+      box-shadow: var(--shadow);
+    }
+    .masthead { text-align: center; }
+    .masthead h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 4rem);
+      line-height: .98;
+      letter-spacing: -.04em;
+      text-transform: uppercase;
+    }
+    .masthead p {
+      max-width: 980px;
+      margin: .65rem auto 1rem;
+      color: var(--muted);
+      font-size: clamp(.95rem, 1.4vw, 1.15rem);
+    }
+    .jump-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: .45rem;
+      margin: 0 0 1.25rem;
+    }
+    .jump-nav a {
+      padding: .35rem .7rem;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: transparent;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .jump-nav a:hover,
+    .jump-nav a:focus-visible { background: var(--ink); color: var(--paper); }
+
+    .year {
+      display: inline-block;
+      margin-right: .28rem;
+      padding: .08rem .33rem;
+      border-radius: 3px;
+      background: var(--ink);
+      color: white;
+      font-size: .73rem;
+      font-weight: 800;
+      letter-spacing: .02em;
+      vertical-align: .08rem;
+    }
+
+    .branch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      align-items: start;
+      margin-top: 6.8rem;
+    }
+    .branch {
+      --branch: var(--ink);
+      --branch-soft: var(--paper-deep);
+      position: relative;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgb(255 255 255 / .34);
+      overflow: visible;
+    }
+    .branch.f13 { --branch: var(--f13); --branch-soft: var(--f13-soft); }
+    .branch.elm { --branch: var(--elm-red); --branch-soft: var(--elm-soft); }
+    .branch.halloween { --branch: var(--halloween); --branch-soft: var(--halloween-soft); }
+    .branch.tcm { --branch: var(--tcm); --branch-soft: var(--tcm-soft); }
+
+    .branch-hero {
+      position: relative;
+      min-height: 215px;
+      padding: 5.05rem 1rem 1rem;
+      border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+      background: var(--branch);
+      color: white;
+      text-align: center;
+    }
+    .elm .branch-hero {
+      background: repeating-linear-gradient(135deg, var(--elm-red) 0 24px, var(--elm-green) 24px 48px);
+    }
+    .portrait {
+      position: absolute;
+      left: 50%;
+      top: -82px;
+      width: 158px;
+      height: 158px;
+      margin: 0;
+      transform: translateX(-50%);
+      border: 4px solid var(--paper);
+      border-radius: 50%;
+      outline: 3px solid var(--branch);
+      overflow: hidden;
+      background: var(--ink);
+      box-shadow: 0 6px 18px rgb(0 0 0 / .28);
+    }
+    .elm .portrait { outline-color: var(--elm-green); }
+    .portrait img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .branch-hero h2 {
+      margin: 0;
+      font-size: clamp(1.18rem, 1.8vw, 1.62rem);
+      line-height: 1.02;
+      text-transform: uppercase;
+    }
+    .branch-hero p { margin: .45rem auto 0; max-width: 32ch; font-size: .85rem; }
+
+    .branch-body { padding: .95rem; }
+    .timeline {
+      position: relative;
+      margin: 0;
+      padding: 0 0 0 1.25rem;
+      list-style: none;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: .28rem;
+      top: .25rem;
+      bottom: .25rem;
+      width: 3px;
+      background: var(--branch);
+    }
+    .elm .timeline::before {
+      background: repeating-linear-gradient(to bottom, var(--elm-red) 0 9px, var(--elm-green) 9px 18px);
+    }
+    .event {
+      position: relative;
+      margin: 0 0 .7rem;
+      padding: .65rem .72rem;
+      border-radius: 7px;
+      background: var(--branch-soft);
+    }
+    .event::before {
+      content: "";
+      position: absolute;
+      left: -1.23rem;
+      top: 1rem;
+      width: .72rem;
+      height: .72rem;
+      border: 2px solid var(--paper);
+      border-radius: 50%;
+      background: var(--branch);
+    }
+    .elm .event::before {
+      background: linear-gradient(135deg, var(--elm-red) 0 50%, var(--elm-green) 50% 100%);
+    }
+    .event h3 { margin: 0 0 .25rem; font-size: 1rem; line-height: 1.12; }
+    .event p { margin: .2rem 0 0; font-size: .88rem; }
+    .event .year { background: var(--branch); }
+    .elm .event .year { background: var(--elm-green); }
+    .detail-list { margin: .35rem 0 0; padding-left: 1.05rem; font-size: .86rem; }
+    .detail-list li + li { margin-top: .24rem; }
+
+    .subbranches {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .65rem;
+      margin: .7rem 0 .9rem 1.25rem;
+    }
+    .subbranch {
+      min-width: 0;
+      border-radius: 7px;
+      background: var(--branch-soft);
+      overflow: hidden;
+    }
+    .subbranch h3 {
+      margin: 0;
+      padding: .48rem .58rem;
+      background: var(--branch);
+      color: white;
+      font-size: .87rem;
+      line-height: 1.1;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .elm .subbranch h3 {
+      background: repeating-linear-gradient(135deg, var(--elm-red) 0 20px, var(--elm-green) 20px 40px);
+    }
+    .subbranch ul { margin: 0; padding: .6rem .65rem .7rem 1.45rem; font-size: .8rem; }
+    .subbranch li + li { margin-top: .2rem; }
+    .subbranch.wide { grid-column: 1 / -1; }
+
+    .franchise-list { margin: .35rem 0 0; padding: 0; list-style: none; }
+    .franchise-list li {
+      display: grid;
+      grid-template-columns: 3.25rem 1fr;
+      gap: .35rem;
+      padding: .28rem 0;
+      border-bottom: 1px solid rgb(0 0 0 / .12);
+      font-size: .84rem;
+    }
+    .franchise-list li:last-child { border-bottom: 0; }
+    .franchise-list time { font-weight: 800; color: var(--branch); }
+    .elm .franchise-list time { color: var(--elm-green); }
+
+    .site-notes {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 1rem;
+      margin-top: 1.25rem;
+      padding: 1rem;
+      border-top: 3px solid var(--ink);
+    }
+    .site-notes h2 { margin: 0 0 .35rem; font-size: 1rem; text-transform: uppercase; }
+    .site-notes p, .site-notes li { font-size: .82rem; }
+    .site-notes p { margin: 0; }
+    .sources { margin: 0; padding-left: 1.1rem; }
+    .sources li + li { margin-top: .2rem; }
+    footer { margin-top: 1rem; text-align: center; color: var(--muted); font-size: .78rem; }
+
+    @media (max-width: 1260px) {
+      .branch-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 6.8rem; }
+    }
+    @media (max-width: 700px) {
+      .page-shell { width: min(100% - 10px, 1780px); margin: 5px auto; border-width: 4px; }
+      .branch-grid, .site-notes { grid-template-columns: 1fr; }
+      .branch-grid { row-gap: 6.8rem; }
+      .subbranches { grid-template-columns: 1fr; }
+    }
+    @media print {
+      body { background: white; }
+      .page-shell { width: 100%; margin: 0; box-shadow: none; }
+      .jump-nav { display: none; }
+      a { text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#branches">Skip to the four timelines</a>
+  <div class="page-shell">
+    <header class="masthead">
+      <h1>Four Branches of Modern Slasher History</h1>
+      <p>How independent collaborators, exploitation distributors, and breakout hits grew into the Crystal Lake, Elm Street, Haddonfield, and Texas Chain Saw families.</p>
+      <nav class="jump-nav" aria-label="Jump to a timeline">
+        <a href="#f13">Friday the 13th</a>
+        <a href="#elm">Nightmare on Elm Street</a>
+        <a href="#halloween">Halloween</a>
+        <a href="#tcm">Texas Chain Saw Massacre</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="branch-grid" id="branches">
+        <article class="branch f13" id="f13">
+          <header class="branch-hero">
+            <figure class="portrait"><img src="assets/jason-voorhees.jpg" alt="Jason Voorhees holding a machete in the rain" loading="eager" decoding="sync"></figure>
+            <h2>Friday the 13th</h2>
+            <p>Defining traits: summer camp, Jason, the hockey mask, and a franchise built from a fast, inexpensive horror formula.</p>
+          </header>
+          <div class="branch-body">
+            <ol class="timeline">
+              <li class="event">
+                <h3><span class="year">1971</span><i>Together</i></h3>
+                <p>Sean S. Cunningham directs and produces; Wes Craven synchronizes dailies and helps edit. Hallmark buys the completed film, and its success earns them another assignment.</p>
+              </li>
+              <li class="event">
+                <h3><span class="year">1972</span><i>The Last House on the Left</i></h3>
+                <p>Craven writes and directs; Cunningham produces. Roughly 20-year-old Steve Miner joins as production assistant and assistant editor, beginning a long mentorship with the two filmmakers.</p>
+              </li>
+              <li class="event">
+                <h3><span class="year">1978</span><i>Here Come the Tigers</i> + <i>Manny's Orphans</i></h3>
+                <p>Cunningham wants to move away from pornography and horror. Phil Scuderi's Georgetown Productions funds two family films modeled on <i>The Bad News Bears</i>.</p>
+                <p>The productions assemble the future <i>Friday the 13th</i> team: Steve Miner, writer Victor Miller, cinematographer Barry Abrams, composer Harry Manfredini, producer Susan Cunningham, and young actor Ari Lehman.</p>
+              </li>
+              <li class="event">
+                <h3><span class="year">1978-79</span><i>Halloween</i> succeeds</h3>
+                <p>Victor Miller recalled Cunningham's pitch: “<i>Halloween</i> is making a lot of money - let's rip it off.” They move the isolation-and-stalking model to a summer camp.</p>
+              </li>
+              <li class="event">
+                <h3><span class="year">1980</span><i>Friday the 13th</i></h3>
+                <p>Georgetown Productions finances the film. Cunningham directs; Miller writes; Miner serves as associate producer, assistant director, and unit production manager; Abrams shoots; Manfredini scores.</p>
+                <p>Ari Lehman plays young Jason in the final shock, pulling survivor Alice Hardy into Crystal Lake.</p>
+              </li>
+              <li class="event">
+                <h3><span class="year">1981</span><i>Friday the 13th Part 2</i></h3>
+                <p>Steve Miner's feature-directing debut. Jason becomes the principal killer, initially hiding beneath a burlap sack.</p>
+              </li>
+              <li class="event">
+                <h3><span class="year">1982</span><i>Friday the 13th Part III</i></h3>
+                <p>Miner directs again. Jason acquires the hockey mask that becomes the franchise's defining image.</p>
+              </li>
+            </ol>
+
+            <div class="subbranches" aria-label="Branches after Friday the 13th Part III">
+              <section class="subbranch">
+                <h3>Steve Miner directing branch</h3>
+                <ul>
+                  <li><i>Friday the 13th Part 2</i> (1981)</li>
+                  <li><i>Friday the 13th Part III</i> (1982)</li>
+                  <li><i>House</i> (1985)</li>
+                  <li><i>Soul Man</i> (1986)</li>
+                  <li><i>Warlock</i> (1989)</li>
+                  <li><i>Wild Hearts Can't Be Broken</i> (1991)</li>
+                  <li><i>Forever Young</i> (1992)</li>
+                  <li><i>My Father the Hero</i> (1994)</li>
+                  <li><i>Big Bully</i> (1996)</li>
+                  <li><i>Halloween H20</i> (1998)</li>
+                  <li><i>Lake Placid</i> (1999)</li>
+                  <li><i>Texas Rangers</i> (2001)</li>
+                  <li><i>Day of the Dead</i> (2008)</li>
+                  <li><i>Private Valentine: Blonde &amp; Dangerous</i> (2008)</li>
+                </ul>
+              </section>
+              <section class="subbranch">
+                <h3>Crystal Lake series continues</h3>
+                <ul class="franchise-list">
+                  <li><time>1984</time><span><i>The Final Chapter</i></span></li>
+                  <li><time>1985</time><span><i>A New Beginning</i></span></li>
+                  <li><time>1986</time><span><i>Part VI: Jason Lives</i></span></li>
+                  <li><time>1988</time><span><i>Part VII: The New Blood</i></span></li>
+                  <li><time>1989</time><span><i>Part VIII: Jason Takes Manhattan</i></span></li>
+                  <li><time>1993</time><span><i>Jason Goes to Hell: The Final Friday</i></span></li>
+                  <li><time>2002</time><span><i>Jason X</i></span></li>
+                  <li><time>2003</time><span><i>Freddy vs. Jason</i></span></li>
+                  <li><time>2009</time><span><i>Friday the 13th</i> remake</span></li>
+                </ul>
+              </section>
+            </div>
+          </div>
+        </article>
+
+        <article class="branch elm" id="elm">
+          <header class="branch-hero">
+            <figure class="portrait"><img src="assets/freddy-krueger.jpg" alt="Freddy Krueger wearing his red-and-green sweater and bladed glove" loading="eager" decoding="sync"></figure>
+            <h2>A Nightmare on Elm Street</h2>
+            <p>Defining traits: urban legend, dream logic, Freddy's supernatural powers, and Wes Craven's complex directorial voice.</p>
+          </header>
+          <div class="branch-body">
+            <ol class="timeline">
+              <li class="event">
+                <h3><span class="year">1972</span>Craven's branch breaks away</h3>
+                <p>After writing and directing <i>The Last House on the Left</i> for producer Sean S. Cunningham, Wes Craven follows his own directorial path toward Elm Street. The earlier Cunningham/Craven collaborations are shown in the Friday the 13th line.</p>
+              </li>
+              <li class="event">
+                <h3><span class="year">1975-82</span>Craven develops his own voice</h3>
+                <p><i>The Fireworks Woman</i> (1975) - <i>The Hills Have Eyes</i> (1977) - <i>Deadly Blessing</i> (1981) - <i>Swamp Thing</i> (1982).</p>
+              </li>
+              <li class="event">
+                <h3><span class="year">1984</span><i>A Nightmare on Elm Street</i></h3>
+                <p>Craven writes and directs, creating Freddy Krueger and launching the Elm Street franchise.</p>
+              </li>
+            </ol>
+            <div class="subbranches">
+              <section class="subbranch wide">
+                <h3>Craven after Freddy</h3>
+                <ul class="franchise-list">
+                  <li><time>1985</time><span><i>The Hills Have Eyes Part II</i></span></li>
+                  <li><time>1986</time><span><i>Deadly Friend</i></span></li>
+                  <li><time>1988</time><span><i>The Serpent and the Rainbow</i></span></li>
+                  <li><time>1989</time><span><i>Shocker</i></span></li>
+                  <li><time>1991</time><span><i>The People Under the Stairs</i></span></li>
+                  <li><time>1994</time><span><i>Wes Craven's New Nightmare</i></span></li>
+                  <li><time>1995</time><span><i>Vampire in Brooklyn</i></span></li>
+                  <li><time>1996</time><span><i>Scream</i></span></li>
+                  <li><time>1997</time><span><i>Scream 2</i></span></li>
+                  <li><time>1999</time><span><i>Music of the Heart</i></span></li>
+                  <li><time>2000</time><span><i>Scream 3</i></span></li>
+                  <li><time>2005</time><span><i>Cursed</i> and <i>Red Eye</i></span></li>
+                  <li><time>2006</time><span><i>Paris, je t'aime</i> segment</span></li>
+                  <li><time>2010</time><span><i>My Soul to Take</i></span></li>
+                  <li><time>2011</time><span><i>Scream 4</i></span></li>
+                </ul>
+              </section>
+              <section class="subbranch wide">
+                <h3>Television landmarks</h3>
+                <ul>
+                  <li><i>Stranger in Our House</i> (1978)</li>
+                  <li><i>Invitation to Hell</i> (1984)</li>
+                  <li><i>Chiller</i> (1985)</li>
+                  <li><i>Night Visions</i> (1990)</li>
+                </ul>
+              </section>
+            </div>
+          </div>
+        </article>
+
+        <article class="branch halloween" id="halloween">
+          <header class="branch-hero">
+            <figure class="portrait"><img src="assets/michael-myers.jpg" alt="Michael Myers holding a knife" loading="eager" decoding="sync"></figure>
+            <h2>Halloween</h2>
+            <p>Defining traits: Michael Myers, the holiday theme, Carpenter's direction and scoring, and multiple sequel continuities.</p>
+          </header>
+          <div class="branch-body">
+            <ol class="timeline">
+              <li class="event">
+                <h3><span class="year">1974</span>Bob Clark's <i>Black Christmas</i></h3>
+                <p>The holiday setting, threatening telephone calls, killer-eye photography, and unresolved ending help define the emerging slasher language.</p>
+              </li>
+              <li class="event">
+                <h3><span class="year">Mid-70s</span>Clark and Carpenter discuss a sequel</h3>
+                <p>Clark later recalled Carpenter asking whether he would make a sequel. Clark imagined Billy caught, institutionalized, escaping the next year, and returning to the house at Halloween. Clark later emphasized that Carpenter did not copy him.</p>
+              </li>
+              <li class="event">
+                <h3><span class="year">1978</span>John Carpenter's <i>Halloween</i></h3>
+                <p>Carpenter directs, co-writes with Debra Hill, and scores the film. Michael Myers escapes confinement and returns to Haddonfield.</p>
+              </li>
+            </ol>
+            <div class="subbranches">
+              <section class="subbranch wide">
+                <h3>Carpenter's horror films</h3>
+                <ul class="franchise-list">
+                  <li><time>1978</time><span><i>Someone's Watching Me!</i> (TV)</span></li>
+                  <li><time>1980</time><span><i>The Fog</i></span></li>
+                  <li><time>1982</time><span><i>The Thing</i></span></li>
+                  <li><time>1983</time><span><i>Christine</i></span></li>
+                  <li><time>1987</time><span><i>Prince of Darkness</i></span></li>
+                  <li><time>1988</time><span><i>They Live</i></span></li>
+                  <li><time>1993</time><span><i>Body Bags</i> (two TV segments)</span></li>
+                  <li><time>1994</time><span><i>In the Mouth of Madness</i></span></li>
+                  <li><time>1995</time><span><i>Village of the Damned</i></span></li>
+                  <li><time>1998</time><span><i>Vampires</i></span></li>
+                  <li><time>2001</time><span><i>Ghosts of Mars</i></span></li>
+                  <li><time>2010</time><span><i>The Ward</i></span></li>
+                </ul>
+              </section>
+              <section class="subbranch wide">
+                <h3>Every Halloween sequel by continuity</h3>
+                <ul>
+                  <li><b>Original/Thorn:</b> <i>Halloween II</i> (1981) - <i>Halloween 4</i> (1988) - <i>Halloween 5</i> (1989) - <i>The Curse of Michael Myers</i> (1995)</li>
+                  <li><b>Anthology:</b> <i>Halloween III: Season of the Witch</i> (1982), standalone</li>
+                  <li><b>H20:</b> <i>Halloween II</i> (1981) - <i>Halloween H20</i> (1998) - <i>Resurrection</i> (2002)</li>
+                  <li><b>Rob Zombie:</b> <i>Halloween</i> (2007) - <i>Halloween II</i> (2009)</li>
+                  <li><b>Blumhouse:</b> <i>Halloween</i> (2018) - <i>Halloween Kills</i> (2021) - <i>Halloween Ends</i> (2022)</li>
+                </ul>
+              </section>
+            </div>
+          </div>
+        </article>
+
+        <article class="branch tcm" id="tcm">
+          <header class="branch-hero">
+            <figure class="portrait"><img src="assets/leatherface.jpg" alt="Leatherface holding a chainsaw" loading="eager" decoding="sync"></figure>
+            <h2>The Texas Chain Saw Massacre</h2>
+            <p>Defining traits: Leatherface, a family dynamic, brutal true-story framing, and Tobe Hooper's documentary-like visual language.</p>
+          </header>
+          <div class="branch-body">
+            <ol class="timeline">
+              <li class="event">
+                <h3><span class="year">1972</span>Bryanston distributes <i>Deep Throat</i></h3>
+                <p>Louis Peraino's company distributes - it does not produce - the inexpensive film. Its extraordinary returns demonstrate the commercial power of exploitation releases and create an appetite for another low-cost sensation.</p>
+              </li>
+              <li class="event">
+                <h3><span class="year">Backstory</span>1969-73 - Hooper finds his nightmare</h3>
+                <p>After <i>Eggshells</i>, Austin filmmaker Tobe Hooper reunites with Kim Henkel, forms Vortex, raises roughly $140,000 from Texas investors, and shoots for six punishing weeks in extreme summer heat.</p>
+              </li>
+              <li class="event">
+                <h3><span class="year">1973-74</span>The business model moves into horror</h3>
+                <p>Hooper and Henkel have already built their film independently. Bryanston sees another low-cost exploitation opportunity and acquires worldwide distribution rights to the completed production.</p>
+              </li>
+              <li class="event">
+                <h3><span class="year">1974</span><i>The Texas Chain Saw Massacre</i></h3>
+                <p>Hooper directs and co-writes. The fictional story draws partly on Ed Gein and contemporary Texas violence; vérité photography and a “true story” frame make it feel frighteningly real.</p>
+              </li>
+              <li class="event">
+                <h3><span class="year">1974-76</span>Bryanston's deal turns bitter</h3>
+                <p>Bryanston pays $225,000 plus a promised 35% of profits for distribution rights, then fails to pay the production its full share. The company collapses in 1976 amid its <i>Deep Throat</i> obscenity case.</p>
+              </li>
+            </ol>
+            <div class="subbranches">
+              <section class="subbranch">
+                <h3>Hooper's directed features</h3>
+                <ul>
+                  <li><i>Eggshells</i> (1969)</li>
+                  <li><i>TCM</i> (1974)</li>
+                  <li><i>Eaten Alive</i> (1976)</li>
+                  <li><i>The Funhouse</i> (1981)</li>
+                  <li><i>Poltergeist</i> (1982)</li>
+                  <li><i>Lifeforce</i> (1985)</li>
+                  <li><i>Invaders from Mars</i> (1986)</li>
+                  <li><i>TCM 2</i> (1986)</li>
+                  <li><i>Spontaneous Combustion</i> (1990)</li>
+                  <li><i>Night Terrors</i> (1993)</li>
+                  <li><i>The Mangler</i> (1995)</li>
+                  <li><i>Crocodile</i> (2000)</li>
+                  <li><i>Toolbox Murders</i> (2004)</li>
+                  <li><i>Mortuary</i> (2005)</li>
+                  <li><i>Djinn</i> (2013)</li>
+                </ul>
+              </section>
+              <section class="subbranch">
+                <h3>The nine-film franchise</h3>
+                <ul class="franchise-list">
+                  <li><time>1974</time><span><i>The Texas Chain Saw Massacre</i></span></li>
+                  <li><time>1986</time><span><i>TCM 2</i> (Hooper)</span></li>
+                  <li><time>1990</time><span><i>Leatherface: TCM III</i></span></li>
+                  <li><time>1995</time><span><i>The Next Generation</i></span></li>
+                  <li><time>2003</time><span><i>TCM</i> remake</span></li>
+                  <li><time>2006</time><span><i>The Beginning</i></span></li>
+                  <li><time>2013</time><span><i>Texas Chainsaw 3D</i></span></li>
+                  <li><time>2017</time><span><i>Leatherface</i></span></li>
+                  <li><time>2022</time><span><i>Texas Chainsaw Massacre</i></span></li>
+                </ul>
+              </section>
+              <section class="subbranch wide">
+                <h3>Television landmarks</h3>
+                <ul>
+                  <li><i>Salem's Lot</i> (1979)</li>
+                  <li><i>I'm Dangerous Tonight</i> (1990)</li>
+                  <li><i>Body Bags</i> segment (1993)</li>
+                  <li><i>The Apartment Complex</i> (1999)</li>
+                  <li>Episodes of <i>Freddy's Nightmares</i>, <i>Tales from the Crypt</i>, <i>Taken</i>, and <i>Masters of Horror</i></li>
+                </ul>
+              </section>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <section class="site-notes" aria-label="Accuracy notes and sources">
+        <div>
+          <h2>Accuracy notes</h2>
+          <p>Bryanston distributed both <i>Deep Throat</i> and the completed <i>Texas Chain Saw Massacre</i>; it did not finance Hooper's production. The filmmaker branching from <i>Friday the 13th Part III</i> is <b>Steve Miner</b>; Sean S. Cunningham is the producer-director who mentored him.</p>
+        </div>
+        <div>
+          <h2>Selected sources</h2>
+          <ul class="sources">
+            <li><a href="https://www.tshaonline.org/handbook/entries/the-texas-chain-saw-massacre-1974">Texas State Historical Association: TCM history</a></li>
+            <li><a href="https://people.com/how-to-watch-friday-the-13th-movies-in-order-7969202">People: Friday the 13th film order</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/Steve_Miner">Steve Miner filmography</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/Tobe_Hooper">Tobe Hooper filmography</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/John_Carpenter_filmography">John Carpenter filmography</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/Wes_Craven_filmography">Wes Craven filmography</a></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>Designed as a responsive, single-page historical timeline for GitHub Pages.</footer>
+  </div>
+</body>
+</html>
