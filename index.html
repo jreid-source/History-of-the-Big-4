@@ -105,7 +105,7 @@
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 1rem;
       align-items: start;
-      margin-top: 6.8rem;
+      margin-top: 1.5rem;
     }
     .branch {
       --branch: var(--ink);
@@ -124,8 +124,7 @@
 
     .branch-hero {
       position: relative;
-      min-height: 215px;
-      padding: 5.05rem 1rem 1rem;
+      padding: 1.35rem 1rem;
       border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
       background: var(--branch);
       color: white;
@@ -133,29 +132,6 @@
     }
     .elm .branch-hero {
       background: repeating-linear-gradient(135deg, var(--elm-red) 0 24px, var(--elm-green) 24px 48px);
-    }
-    .portrait {
-      position: absolute;
-      left: 50%;
-      top: -82px;
-      width: 158px;
-      height: 158px;
-      margin: 0;
-      transform: translateX(-50%);
-      border: 4px solid var(--paper);
-      border-radius: 50%;
-      outline: 3px solid var(--branch);
-      overflow: hidden;
-      background: var(--ink);
-      box-shadow: 0 6px 18px rgb(0 0 0 / .28);
-    }
-    .elm .portrait { outline-color: var(--elm-green); }
-    .portrait img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
     }
     .branch-hero h2 {
       margin: 0;
@@ -270,12 +246,11 @@
     footer { margin-top: 1rem; text-align: center; color: var(--muted); font-size: .78rem; }
 
     @media (max-width: 1260px) {
-      .branch-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 6.8rem; }
+      .branch-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 700px) {
       .page-shell { width: min(100% - 10px, 1780px); margin: 5px auto; border-width: 4px; }
       .branch-grid, .site-notes { grid-template-columns: 1fr; }
-      .branch-grid { row-gap: 6.8rem; }
       .subbranches { grid-template-columns: 1fr; }
     }
     @media print {
@@ -304,7 +279,6 @@
       <div class="branch-grid" id="branches">
         <article class="branch f13" id="f13">
           <header class="branch-hero">
-            <figure class="portrait"><img src="assets/jason-voorhees.jpg" alt="Jason Voorhees holding a machete in the rain" loading="eager" decoding="sync"></figure>
             <h2>Friday the 13th</h2>
             <p>Defining traits: summer camp, Jason, the hockey mask, and a franchise built from a fast, inexpensive horror formula.</p>
           </header>
@@ -382,7 +356,6 @@
 
         <article class="branch elm" id="elm">
           <header class="branch-hero">
-            <figure class="portrait"><img src="assets/freddy-krueger.jpg" alt="Freddy Krueger wearing his red-and-green sweater and bladed glove" loading="eager" decoding="sync"></figure>
             <h2>A Nightmare on Elm Street</h2>
             <p>Defining traits: urban legend, dream logic, Freddy's supernatural powers, and Wes Craven's complex directorial voice.</p>
           </header>
@@ -423,6 +396,19 @@
                 </ul>
               </section>
               <section class="subbranch wide">
+                <h3>The Nightmare on Elm Street sequel series</h3>
+                <ul class="franchise-list">
+                  <li><time>1985</time><span><i>Freddy's Revenge</i></span></li>
+                  <li><time>1987</time><span><i>Dream Warriors</i></span></li>
+                  <li><time>1988</time><span><i>The Dream Master</i></span></li>
+                  <li><time>1989</time><span><i>The Dream Child</i></span></li>
+                  <li><time>1991</time><span><i>Freddy's Dead: The Final Nightmare</i></span></li>
+                  <li><time>1994</time><span><i>Wes Craven's New Nightmare</i></span></li>
+                  <li><time>2003</time><span><i>Freddy vs. Jason</i></span></li>
+                  <li><time>2010</time><span><i>A Nightmare on Elm Street</i> remake</span></li>
+                </ul>
+              </section>
+              <section class="subbranch wide">
                 <h3>Television landmarks</h3>
                 <ul>
                   <li><i>Stranger in Our House</i> (1978)</li>
@@ -437,7 +423,6 @@
 
         <article class="branch halloween" id="halloween">
           <header class="branch-hero">
-            <figure class="portrait"><img src="assets/michael-myers.jpg" alt="Michael Myers holding a knife" loading="eager" decoding="sync"></figure>
             <h2>Halloween</h2>
             <p>Defining traits: Michael Myers, the holiday theme, Carpenter's direction and scoring, and multiple sequel continuities.</p>
           </header>
@@ -490,7 +475,6 @@
 
         <article class="branch tcm" id="tcm">
           <header class="branch-hero">
-            <figure class="portrait"><img src="assets/leatherface.jpg" alt="Leatherface holding a chainsaw" loading="eager" decoding="sync"></figure>
             <h2>The Texas Chain Saw Massacre</h2>
             <p>Defining traits: Leatherface, a family dynamic, brutal true-story framing, and Tobe Hooper's documentary-like visual language.</p>
           </header>

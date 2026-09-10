@@ -7,22 +7,17 @@ A responsive, single-page visual history of four major American horror lines:
 - *Halloween*
 - *The Texas Chain Saw Massacre*
 
-The page keeps the poster-like design of the original concept - double border, circular character portraits, strong branch colors, and modular timeline cards - while restoring the detailed production history, film lists, sequel continuities, and director offshoots. Each historical foundation now appears inside the branch it feeds instead of in a separate shared strip.
+The page keeps the poster-like design of the original concept - double border, strong branch colors, and modular timeline cards - while restoring the detailed production history, film lists, sequel continuities, and director offshoots. Each historical foundation now appears inside the branch it feeds instead of in a separate shared strip. Character portraits have been removed; each branch header is text-only.
 
 ## Project structure
 
 ```text
 slasher-history-site-corrected/
 ├── index.html
-├── README.md
-└── assets/
-    ├── freddy-krueger.jpg
-    ├── jason-voorhees.jpg
-    ├── leatherface.jpg
-    └── michael-myers.jpg
+└── README.md
 ```
 
-The site uses plain HTML and CSS with no framework, package manager, build command, JavaScript, or external font dependency. The four supplied JPG files are real page images referenced from `index.html`; keep the `assets` folder beside the HTML file.
+The site uses plain HTML and CSS with no framework, package manager, build command, JavaScript, external font dependency, or image assets. It is a single self-contained file.
 
 ## Preview locally
 
@@ -37,14 +32,12 @@ Then visit <http://localhost:8000>.
 ## Publish with GitHub Pages
 
 1. Create a new GitHub repository.
-2. Upload `index.html`, `README.md`, and the complete `assets` folder to the repository root.
+2. Upload `index.html` and `README.md` to the repository root.
 3. Commit the files to the `main` branch.
 4. Open **Settings → Pages** in the GitHub repository.
 5. Under **Build and deployment**, choose **Deploy from a branch**.
 6. Select the `main` branch and `/ (root)` folder, then click **Save**.
 7. GitHub will display the public site address after deployment finishes.
-
-The image paths are relative (`assets/jason-voorhees.jpg`, for example), which is the most reliable setup for GitHub Pages. Do not upload only `index.html`; the `assets` folder is part of the page.
 
 ## Content included
 
@@ -63,6 +56,7 @@ The image paths are relative (`assets/jason-voorhees.jpg`, for example), which i
 - The point where Wes Craven branches away after *The Last House on the Left*
 - Craven's development from his early features through the 1984 original
 - Craven's post-Freddy feature directing work through *Scream 4*
+- Every Nightmare on Elm Street sequel, from 1985's *Freddy's Revenge* through the 2010 remake
 - Selected television movies
 
 ### Halloween line
@@ -102,7 +96,3 @@ The layout displays four columns on large screens, two columns on medium screens
 - The filmmaker who directed *Friday the 13th Part 2* and *Part III* is **Steve Miner**. Sean S. Cunningham is a different filmmaker.
 
 Selected research links are included at the bottom of the webpage.
-
-## Image-use note
-
-The four character portraits are stills from the films themselves (production/promotional photography), not original artwork, and each is almost certainly still under copyright to its respective studio. They work fine for local previewing or a private repo, but before publishing this site publicly, replace them with images you have the rights to use, or confirm you have permission/a valid license to redistribute them as-is. To swap an image, overwrite the matching JPG in `assets` while keeping the same filename.
